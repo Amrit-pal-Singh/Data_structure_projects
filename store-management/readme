@@ -1,3 +1,27 @@
+Functionalities
+
+The developed system implement the following functionalities.
+1. The program is  able to add fruits and vegetables to the system
+dynamically. User will enter the type of fruit/vegetable followed by its details.
+
+2. The program is able to sell fruits and vegetables. The user will enter type
+and count/amount. The program will tell how much to pay and update the
+amount/count in the system after selling. You can first sell the items that are
+close that are cheapest (assuming same type items may have different prices).
+
+3. Given a fruit or vegetable as input type, the program is able to display
+the current amount/count in the store.
+
+4. The program is able to display all items in the store with their details.
+
+5. Given an area, the program is able to find the items in that area and
+display their details.
+
+6. Given calories,we can find maximum amount/count of the vegetable/fruit and sell. I.e.,
+the user may want maximum amount/count for given calories.
+
+HOW TO RUN
+
 just hit the command "make" after opening the file
 and then hit ./run to run the preogram
 and then choose the options coming on the screen
