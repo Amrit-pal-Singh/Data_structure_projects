@@ -1,17 +1,15 @@
 Program Description
 
-In this Project, i designed and implemented a special templated queue
-abstract data type (ADT). 
+In this Project, i designed and implemented a special templated queue ADT. 
 Used Linked-list based implementation. 
 
 It support all the standard functions of a queue. 
 In addition, it also support a special function min() in constant time, i.e. O(1).
-Thisfunction returns reference of the minimum element.
 I used constant amount of extra memory. Enqueue and dequeue are also be O(1). 
 
 
 The queue add vegetable and fruit items(given in the files)
-To compare two fruits or vegetables, I used their calorie value (to implement min function). 
+To compare two fruits or vegetables, it use their calorie value. 
 
 
 
