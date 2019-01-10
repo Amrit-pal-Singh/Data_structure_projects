@@ -4,5 +4,3 @@ Then the using the hash function on the inputed words, we check the spelling.
 
 Program is able to handle all the common ways the word might be misspelled.
 Meaning is printed from the dictionary implemented using hash table if spelling is correct.
-
-CODE WILL BE COMPLETE IN A WEEK
