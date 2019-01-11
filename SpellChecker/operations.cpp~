@@ -1,0 +1,163 @@
+#include "operations.h"
+
+operation::operation(){    
+}
+
+
+void operation::add_element(entry* object){
+    string word = object->get_word();
+    int hash1 = hash_function1(word)%size;
+    int hash2 = hash_function2(word);
+    int i = 0;
+    int j= 0;
+    if(element_number >= size){
+        cout<<"MAXIMUM LIMIT REACHED"<<endl;
+        return;
+    }
+    if(hash_table[hash1] != NULL){
+        while(1){
+            j++;
+            int index = (hash1 + hash2*i)%size;
+            if(hash_table[index] == NULL || hash_table[index] == (entry*)-1){
+                hash_table[index] = object;
+                element_number++;
+                break;
+            }
+            if(( (hash_table[index]->get_word() ).compare( object->get_word() )) == 0){
+                string temp = object->get_meaning();
+                hash_table[index]->add_meaning( temp );
+                cout<<"MEANING CHANGED OF " <<object->get_word()<<endl;
+                break;
+            }
+            if(j>size){
+                cout<<"CANNOT ADD THIS ELEMENT"<<endl;
+                break;
+            }
+            i++;
+        }
+    }    
+    else{
+        hash_table[hash1] = object; 
+        element_number++;
+    }
+}
+
+
+void operation::set_size(int size_input = 10000){
+    this->size = size_input;
+    hash_table.resize(size);
+    for(int i = 0 ; i < size; i++){
+        hash_table[i] = NULL;
+    }
+}
+
+
+void operation::print(){
+    for(int i = 0; i < size; i++){
+        if(hash_table[i] != NULL && hash_table[i] != (entry*)-1)
+            cout<<hash_table[i]->get_word()<<" -> "<<hash_table[i]->get_meaning()<<endl;
+        if(hash_table[i] == (entry*)-1){
+            cout<<"MARKER"<<endl;
+        }
+    }
+}
+
+
+int operation::size_of_dict(){
+    return element_number;
+}
+
+
+void operation::remove(string input){
+    int hash1 = hash_function1(input)%size;
+    int hash2 = hash_function2(input);
+    int i = 0, flag = 0, j = 0;
+    while(1){
+        j++;
+        int index = (hash1 + hash2*i)%size;
+        if(hash_table[index]!=NULL && hash_table[index] != (entry*)-1 && hash_table[index]->get_word().compare(input) == 0 ){
+            hash_table[index] = (entry*)(-1);
+            flag = 1;
+            element_number--;
+            break;
+        }
+        if(j>size){
+            break;
+        }
+        i++;
+    }
+    if(flag == 0)
+        cout<<"CANNOT DELETE THIS ELEMENT"<<endl;
+
+}
+
+void operation::spellCheck(string& s){
+    vector<string> v;
+    int flag = 0;
+    for(int i = 0 ; i < size; i++){
+        if(hash_table[i] != NULL){
+            int dis  = distance(hash_table[i]->get_word(), s);
+            if(dis == 0){
+                cout<<"Meaning is -> "<<hash_table[i]->get_meaning()<<endl;
+                flag = 1;
+                return;
+            }
+            else if(dis <= 2 && dis >= 1){
+                cout<<"distance is "<<dis<<endl;
+                v.push_back(hash_table[i]->get_word());
+            }
+        }
+    }    
+
+    if(flag == 0 && !v.empty()){
+        cout<<"SIMILAR WORDS ARE"<<endl;
+        for(int i = 0 ; i < v.size(); i++){
+            cout<<v[i]<<endl;
+        }
+    }
+    else{
+        cout<<"NO SIMILAR WORDS"<<endl;
+    }
+}
+
+
+int min(int **a,int r,int c){
+    int min=1000;
+    if(a[r-1][c-1]<min)
+        min=a[r-1][c-1];
+    if(a[r-1][c]<min)
+        min=a[r-1][c];
+    if(a[r][c-1]<min)
+        min=a[r][c-1];
+    return min;
+}
+
+
+
+int operation::distance(const string& c1,const string& c2){
+    int r,c;
+    int word=0,j=0;
+    r=c1.length();
+    c=c2.length();
+    int *arr[r];
+    for (word=0; word<=r; word++)
+         arr[word] = (int *)malloc((c+1) * sizeof(int)); 
+    for(word=0;word<=c;word++){
+        arr[0][word]=word;
+    } 
+    for(word=0;word<=r;word++){
+        arr[word][0]=word;
+    }
+    word=1;j=1;
+    for(word=1;word<=r;word++){
+        for(j=1;j<=c;j++){
+            if(c1[j-1]==c2[word-1]){
+                arr[word][j]=0+min(arr,word,j);
+            }
+            else{
+                arr[word][j]=1+min(arr,word,j);
+            }
+        }
+    }
+    return arr[word-1][j-1];
+}
